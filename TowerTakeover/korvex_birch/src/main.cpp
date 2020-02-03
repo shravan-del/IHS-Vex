@@ -178,6 +178,7 @@ void opcontrol() {
 
 	// main loop
 	while (true) {
+		// the tank control
 		chassis->getModel()->tank(masterController.getAnalog(ControllerAnalog::leftY),
 								masterController.getAnalog(ControllerAnalog::rightY));
 
