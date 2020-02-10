@@ -141,6 +141,10 @@ void autonomous() {
 	chassis->getModel()->turn(45);
 	pros::delay(100);
 	chassis->stop();
+
+	clawOpen->getModel()->move(45);
+	pros::delay(100);
+	clawOpen->stop();
 }
 
 /**
