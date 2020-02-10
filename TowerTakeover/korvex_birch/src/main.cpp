@@ -5,7 +5,7 @@ using namespace okapi;
 
 // chassis
 auto chassis = ChassisControllerBuilder()
-		.withMotors(LEFT_MTR1, RIGHT_MTR1)
+		.withMotors(LEFT_MTR1, -RIGHT_MTR1)
 		// green gearset, 4 1/8 inch wheel diameter, 8 1/8 inch wheelbase
 		.withDimensions(AbstractMotor::gearset::green, {{4_in, 6_in}, imev5GreenTPR})
 		.withOdometry() // use the same scales as the chassis (above)
@@ -134,28 +134,9 @@ void competition_initialize() {}
 
 
 void autonomous() {
-	chassis->setState({0_in, 0_in, 0_deg});
-	float origAngle;
-	auto chassisState = chassis->getState().str();
-
-	// motor setup
-	liftMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-
-	if (autonSelection == 42) autonSelection = -3; // use debug if we havent selected any auton
-	std::cout << "auton  " << autonSelection << std::endl;
-
-	switch (autonSelection) {
-	case 0:
-		// skills doesnt exist.
-		break;
-	case 2:
-		// blue protec
-
-		break;
-
-	default:
-		break;
-	}
+	chassis->getModel()->forward(50);
+	pros::delay(1000);
+	chassis->stop();
 }
 
 /**
@@ -173,7 +154,6 @@ void autonomous() {
  */
 
 void opcontrol() {
-	chassis->stop();
 	chassis->getModel()->setBrakeMode(AbstractMotor::brakeMode::coast);
 
 	// main loop
