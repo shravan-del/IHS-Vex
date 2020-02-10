@@ -137,6 +137,10 @@ void autonomous() {
 	chassis->getModel()->forward(50);
 	pros::delay(1000);
 	chassis->stop();
+
+	chassis->getModel()->turn(45);
+	pros::delay(100);
+	chassis->stop();
 }
 
 /**
@@ -177,6 +181,7 @@ void opcontrol() {
 		clawMotor.move_velocity(-200);
 	}
 	else{clawMotor.move_velocity(0);}
+
 
 
 
