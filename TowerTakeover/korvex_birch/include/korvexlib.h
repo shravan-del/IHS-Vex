@@ -5,7 +5,7 @@
 // ports for motors
 
 // chassis motors
-const int LEFT_MTR1 = 1;
+const int LEFT_MTR1 = 1; 
 const int RIGHT_MTR1 = 2;
 const int ARM_MTR1 = 8;
 const int CLAW_MTR1 = 3;
@@ -16,6 +16,8 @@ extern int autonSelection;
 // motor declerations
 extern pros::Motor liftMotor;
 extern pros::Motor clawMotor;
+extern pros::Motor leftMotor;
+extern pros::Motor rightMotor;
 
 // controller declerations
 extern okapi::Controller masterController;

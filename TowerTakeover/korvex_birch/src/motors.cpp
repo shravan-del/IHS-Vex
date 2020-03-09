@@ -6,6 +6,8 @@ using namespace okapi;
 
 pros::Motor liftMotor(ARM_MTR1, pros::E_MOTOR_GEARSET_36, false);
 pros::Motor clawMotor(CLAW_MTR1, pros::E_MOTOR_GEARSET_36, false);
+pros::Motor leftMotor(LEFT_MTR1, pros::E_MOTOR_GEARSET_36, false);
+pros::Motor rightMotor(RIGHT_MTR1, pros::E_MOTOR_GEARSET_36, false);
 
 
 // controller

@@ -4,18 +4,6 @@
 using namespace okapi;
 
 // chassis
-auto chassis = ChassisControllerBuilder()
-		.withMotors(LEFT_MTR1, -RIGHT_MTR1)
-		// green gearset, 4 1/8 inch wheel diameter, 8 1/8 inch wheelbase
-		.withDimensions(AbstractMotor::gearset::green, {{4_in, 6_in}, imev5GreenTPR})
-		.withOdometry() // use the same scales as the chassis (above)
-		.buildOdometry(); // build an odometry chassis
-
-auto profileController = AsyncMotionProfileControllerBuilder()
-    .withLimits({1.0, 1.5, 5.0}) //double maxVel double maxAccel double maxJerk
-    .withOutput(chassis)
-    .buildMotionProfileController();
-
 
 // base global defenitions
 int autonSelection = 42; // hitchhikers anyone?
@@ -106,7 +94,7 @@ void initialize()
  * the robot is enabled, this task will exit.
  */
 void disabled() {
-	chassis->stop();
+	
 }
 
 /**
@@ -134,17 +122,23 @@ void competition_initialize() {}
 
 
 void autonomous() {
-	chassis->getModel()->forward(50);
+	leftMotor.move_velocity(200);
+	rightMotor.move_velocity(200);
+
+	
 	pros::delay(1000);
-	chassis->stop();
+	leftMotor.move_velocity(0);
+	rightMotor.move_velocity(0);
+	
+	
 
-	chassis->getModel()->turn(45);
+	// chassis->getModel()->turn(45);
 	pros::delay(100);
-	chassis->stop();
+	
 
-	clawOpen->getModel()->move(45);
-	pros::delay(100);
-	clawOpen->stop();
+	clawMotor.move_absolute(400, 200);
+	pros::delay(500);
+	clawMotor.move_absolute(0, 200);
 }
 
 /**
@@ -162,20 +156,23 @@ void autonomous() {
  */
 
 void opcontrol() {
-	chassis->getModel()->setBrakeMode(AbstractMotor::brakeMode::coast);
+	
 
 	// main loop
 	while (true) {
 		// the tank control
-		chassis->getModel()->tank(masterController.getAnalog(ControllerAnalog::leftY),
-								masterController.getAnalog(ControllerAnalog::rightY));
-
+	
+		rightMotor.move(masterController.getAnalog(ControllerAnalog::rightY));
+		leftMotor.move(masterController.getAnalog(ControllerAnalog::leftY));
+//If the arm button is pressed then the arm will move upwards 
 	if(armUp.isPressed()){
 		liftMotor.move_velocity(200);
 	}
+//Other Arm button moves the arm downwards
 	else if(armDown.isPressed()){
 		liftMotor.move_velocity(-200);
 	}
+//
 	else{liftMotor.move_velocity(0);}
 
 	if(clawOpen.isPressed()){
